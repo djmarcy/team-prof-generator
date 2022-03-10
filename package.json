@@ -1,0 +1,23 @@
+{
+  "name": "team-prof-generator",
+  "version": "1.0.0",
+  "description": "Homework #10",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djmarcy/team-prof-generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djmarcy/team-prof-generator/issues"
+  },
+  "homepage": "https://github.com/djmarcy/team-prof-generator#readme",
+  "devDependencies": {
+    "express": "^4.17.3",
+    "inquirer": "^8.2.1"
+  }
+}
