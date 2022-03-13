@@ -1,16 +1,5 @@
 // Required applications
 const inquirer = require("inquirer");
-
-// Global variables
-function init() {
-  // function shenanigans
-}
-
-// init
-init();
-
-// TODO: Include packages needed for this application
-const inquirer = require("inquirer");
 const fs = require("fs");
 
 // TODO: Create an array of questions for user input
@@ -35,24 +24,59 @@ const managerQuestions = [
     name: "managerOffice",
     message: "Office Number:",
   },
+  {
+    type: "list",
+    name: "newEmployee",
+    message: "What type of employee would you like to input next?",
+    choices: ["Engineer", "Intern"],
+  },
 ];
 
 // TODO: Create a function to write README file
 function writeToFile(response) {
-  return `# ${response.title}\n${response.licenses}\n\n## Table of Contents\n1. [Project Description](#project-description)\n2. [Installation](#installation)\n3. [Contributing](#contributing)\n4. [Tests](#tests)\n5. [License](#license)\n6. [Contact](#contact)\n\n## Project Description\n${response.description}\n\n## Installation\n${response.usage}\n\n## Contributing\n${response.contribution}\n\n## Tests\n${response.tests}\n\n## License\nThis project uses the ${licenseName}. Click on the link to learn more.\n\n## Contact\nGithub: [github.com/${response.github}](https://github.com/${response.github})  \nEmail: [${response.email}](mailto:${response.email})`;
+  // Return HTML page
+  return ``;
 }
 
 // TODO: Create a function to initialize app
 function init() {
-  inquirer.prompt(questions).then((data) => {
-    const readme = writeToFile(data);
-    console.log(readme);
+  inquirer
+    .prompt(managerQuestions)
+    .then((answers) => {
+      console.log(answers.newEmployee);
+      switch (answers.newEmployee) {
+        case "Engineer":
+          engineerQuestions();
+          break;
 
-    fs.writeFile("./output/team-profile.html", readme, (err) =>
-      err ? console.log(err) : console.log("Readme Successfully Generated")
-    );
-  });
+        case "Intern":
+          internQuestions();
+          break;
+      }
+    })
+    .then((data) => {
+      const readme = writeToFile(data);
+      console.log(readme);
+
+      fs.writeFile("./output/team-profile.html", readme, (err) =>
+        err ? console.log(err) : console.log("Readme Successfully Generated")
+      );
+    });
+}
+
+// Intern Questions function
+function internQuestions() {
+  // Inquirer prompts go here
+  //
+}
+
+// Engineer Questions function
+function engineerQuestions() {
+  // Inquirer prompts go here
+  //
 }
 
 // Function call to initialize app
 init();
+
+// manager questions --> managet obj. stored in array --> next employee --> Engineer/Intern --> save as obj. --> next employee --> repeats --> no more employees are need --> fs.writeFile
