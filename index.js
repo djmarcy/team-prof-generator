@@ -1,35 +1,107 @@
 // Required applications
 const inquirer = require("inquirer");
-const fs = require("fs");
 const Engineer = require("./lib/engineer");
 const Intern = require("./lib/intern");
 const Manager = require("./lib/manager");
+const fs = require("fs");
 const team = {
   manager: [],
   interns: [],
   engineers: [],
 }
 
+function generateHTML() {
+
+  const content = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+  </head>
+  <body>
+  <h1>Team Profile Generator</h1>
+  <hr />`
+
+  fs.writeFile("./output/team-profile.html", content, (err) =>
+  err ? console.log(err) : console.log("Readme Successfully Generated")
+  );
+
+  const appendManager = `<h2>Manager:</h2>
+  <p><b>Manager Name:</b> ${team.manager.name}</p>
+  <p><b>Manager ID:</b> ${team.manager.id}</p>
+  <p><b>Manager Email:</b> ${team.manager.email}</p>
+  <p><b>Manager Office:</b> ${team.manager.officeNum}</p>
+  <hr />`
+
+  fs.appendFile("./output/team-profile.html", appendManager, (err) =>
+  err ? console.log(err) : console.log("Manager added successfully!")
+  );
+
+  const appendIntern = () => {
+      return `<section class="append-interns">` + team.interns.forEach(element => {
+          `<div class="intern-card">
+          <p><b>Intern Name:</b> ${team.interns.name}</p>
+          <p><b>Intern ID:</b> ${team.interns.id}</p>
+          <p><b>Intern Email:</b> ${team.interns.email}</p>
+          <p><b>Intern School:</b> ${team.interns.school}</p>
+          </div>` + `</section>
+          <hr />` 
+      });
+  }
+
+  fs.appendFile("./output/team-profile.html", appendIntern(), (err) =>
+  err ? console.log(err) : console.log("Interns added successfully!")
+  );
+
+  const appendEngineer = () => {
+      return `<section class="append-engineers">` + team.engineers.forEach(element => {
+          `<div class="intern-card">
+          <p><b>Intern Name:</b> ${team.engineers.name}</p>
+          <p><b>Intern ID:</b> ${team.engineers.id}</p>
+          <p><b>Intern Email:</b> ${team.engineers.email}</p>
+          <p><b>Engineer Github:</b> <a href="${team.engineers.github}">${team.engineers.github}</a></p>
+          </div>` + `</section>
+          <hr />`
+      });
+  }
+
+  fs.appendFile("./output/team-profile.html", appendEngineer(), (err) =>
+  err ? console.log(err) : console.log("Engineers added successfully!")
+  );
+
+  const htmlEnd = `</body>
+  <footer>&copy Marcy Web Dev 2022</footer>`
+
+  fs.appendFile("./output/team-profile.html", htmlEnd, (err) =>
+  err ? console.log(err) : console.log("Team profile page ready!")
+  );
+
+  console.log(team)
+
+}
+
 // TODO: Create an array of questions for user input
 const managerQuestions = [
   {
     type: "input",
-    name: "managerName",
+    name: "name",
     message: "Manager Name:",
   },
   {
     type: "input",
-    name: "managerID",
+    name: "id",
     message: "Manager ID:",
   },
   {
     type: "input",
-    name: "managerEmail",
+    name: "email",
     message: "Email Address:",
   },
   {
     type: "input",
-    name: "managerOffice",
+    name: "officeNum",
     message: "Office Number:",
   },
   {
@@ -43,17 +115,17 @@ const managerQuestions = [
 const internQuestions = [
   {
     type: "input",
-    name: "internName",
+    name: "name",
     message: "Intern Name:",
   },
   {
     type: "input",
-    name: "internID",
+    name: "id",
     message: "Intern ID:",
   },
   {
     type: "input",
-    name: "internEmail",
+    name: "email",
     message: "Email Address:",
   },
   {
@@ -72,22 +144,22 @@ const internQuestions = [
   const engineerQuestions = [
     {
       type: "input",
-      name: "engineerName",
+      name: "name",
       message: "Engineer Name:",
     },
     {
       type: "input",
-      name: "engineerID",
+      name: "id",
       message: "Engineer ID:",
     },
     {
       type: "input",
-      name: "engineerEmail",
+      name: "email",
       message: "Email Address:",
     },
     {
       type: "input",
-      name: "engineerGithub",
+      name: "github",
       message: "What is the engineer's Github profile?",
     },
     {
@@ -103,7 +175,7 @@ inquirer
 .prompt(managerQuestions)
   .then((answers) => {
     
-    team.manager.push(new Manager(answers.managerName, answers.managerID, answers.managerEmail, answers.managerOffice))
+    team.manager.push(new Manager(answers.name, answers.id, answers.email, answers.officeNum))
 
     switch (answers.newEmployee) {
       case "Engineer":
@@ -122,7 +194,7 @@ function addIntern() {
   inquirer
     .prompt(internQuestions)
       .then((answers) => {
-        team.interns.push(new Intern(answers.internName, answers.internID, answers.internEmail, answers.school))
+        team.interns.push(new Intern(answers.name, answers.id, answers.email, answers.school))
 
         switch (answers.addMore) {
           case "Engineer":
@@ -146,7 +218,7 @@ function addEngineer() {
   inquirer
     .prompt(engineerQuestions)
         .then((answers) => {
-          team.engineers.push(new Engineer(answers.engineerName, answers.engineerID, answers.engineerEmail, answers.engineerGithub))
+          team.engineers.push(new Engineer(answers.name, answers.id, answers.email, answers.github))
 
           switch (answers.addMore) {
             case "Engineer":
@@ -164,21 +236,6 @@ function addEngineer() {
           }
         })
 }
-
-// TODO: Create a function to write README file
-function generateHTML() {
-  // Return HTML page
-  console.log(team)
-  return ``;
-}
-
-// Write to HTML
-      // const readme = writeToFile(data);
-      // console.log(readme);
-
-      // fs.writeFile("./output/team-profile.html", readme, (err) =>
-      //   err ? console.log(err) : console.log("Readme Successfully Generated")
-      // );
 
 // Function call to initialize app
 init();
