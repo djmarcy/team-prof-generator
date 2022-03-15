@@ -5,94 +5,81 @@ const Intern = require("./lib/intern");
 const Manager = require("./lib/manager");
 const fs = require("fs");
 const team = {
-  manager: [],
+  manager: "",
   interns: [],
   engineers: [],
 };
 
 function generateHTML() {
-  const content = `<!DOCTYPE html>
+  const content =
+    `<!DOCTYPE html>
   <html lang="en">
   <head>
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
+      
+      <link rel="stylesheet" href="style.css">
+
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+        integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+      <title>Team Profile Generator</title>
   </head>
+
+  <header>
+    <h1>Team Profile Generator</h1>
+  </header>
+
   <body>
-  <h1>Team Profile Generator</h1>
-  <hr />`;
+  <section class="manager-section">
+    <h2>Manager:</h2>
+    <p><b>Manager Name:</b> ${team.manager.getName()}</p>
+    <p><b>Manager ID:</b> ${team.manager.getId()}</p>
+    <p><b>Manager Email:</b> <a href="${team.manager.getEmail()}">${team.manager.getEmail()}</a></p>
+    <p><b>Manager Office:</b> ${team.manager.getOfficeNum()}</p>
+  </section>
+  
+  <section class="append-engineers">` +
+    team.engineers
+      .map((element) => {
+        return `<div class="intern-card">
+        <p><b>Engineer Name:</b> ${element.getName()}</p>
+        <p><b>Engineer ID:</b> ${element.getId()}</p>
+        <p><b>Engineer Email:</b> <a href="${element.getEmail()}">${element.getEmail()}</a></p>
+        <p><b>Engineer Github:</b> <a href="${element.getGithub()}">${element.getGithub()}</a></p>
+       </div>`;
+      })
+      .join("") +
+    `</section>
+      
+    <hr />
+      
+  <section class="append-interns">` +
+    team.interns
+      .map((element) => {
+        return `<div class="intern-card">
+        <p><b>Intern Name:</b> ${element.getName()}</p>
+        <p><b>Intern ID:</b> ${element.getId()}</p>
+        <p><b>Intern Email:</b> <a href="${element.getEmail()}">${element.getEmail()}</a></p>
+        <p><b>Intern School:</b> ${element.getSchool()}</p>
+       </div>`;
+      })
+      .join("") +
+    `</section>
+          
+    <hr />
+
+    <footer>&copy Marcy Web Dev 2022</footer>`;
 
   fs.writeFile("./output/team-profile.html", content, (err) =>
     err ? console.log(err) : console.log("Readme Successfully Generated")
   );
 
-  const appendManager = `<h2>Manager:</h2>
-  <p><b>Manager Name:</b> ${team.manager.name}</p>
-  <p><b>Manager ID:</b> ${team.manager.id}</p>
-  <p><b>Manager Email:</b> ${team.manager.email}</p>
-  <p><b>Manager Office:</b> ${team.manager.officeNum}</p>
-  <hr />`;
-
-  fs.appendFile("./output/team-profile.html", appendManager, (err) =>
-    err ? console.log(err) : console.log("Manager added successfully!")
-  );
-
-  appendEngineer();
-  fs.appendFile("./output/team-profile.html", appendEngineer(), (err) =>
-    err ? console.log(err) : console.log("Engineers added successfully!")
-  );
-
-  appendIntern();
-  fs.appendFile("./output/team-profile.html", appendIntern(), (err) =>
-    err ? console.log(err) : console.log("Interns added successfully!")
-  );
-
-  endContent();
-  fs.appendFile("./output/team-profile.html", endContent(), (err) =>
-    err ? console.log(err) : console.log("Team profile page ready!")
-  );
-
   console.log(team);
 }
-
-function appendIntern() {
-  return (
-    `<section class="append-interns">` +
-    team.interns.forEach((element) => {
-      `<div class="intern-card">
-          <p><b>Intern Name:</b> ${team.interns.name}</p>
-          <p><b>Intern ID:</b> ${team.interns.id}</p>
-          <p><b>Intern Email:</b> ${team.interns.email}</p>
-          <p><b>Intern School:</b> ${team.interns.school}</p>
-          </div>` +
-        `</section>
-          <hr />`;
-    })
-  );
-}
-
-function appendEngineer() {
-  return (
-    `<section class="append-engineers">` +
-    team.engineers.forEach((element) => {
-      `<div class="intern-card">
-          <p><b>Intern Name:</b> ${team.engineers.name}</p>
-          <p><b>Intern ID:</b> ${team.engineers.id}</p>
-          <p><b>Intern Email:</b> ${team.engineers.email}</p>
-          <p><b>Engineer Github:</b> <a href="${team.engineers.github}">${team.engineers.github}</a></p>
-          </div>` +
-        `</section>
-          <hr />`;
-    })
-  );
-}
-
-function endContent() {
-  return `</body>
-  <footer>&copy Marcy Web Dev 2022</footer>`;
-}
-
 // TODO: Create an array of questions for user input
 const managerQuestions = [
   {
@@ -184,8 +171,11 @@ const engineerQuestions = [
 
 function init() {
   inquirer.prompt(managerQuestions).then((answers) => {
-    team.manager.push(
-      new Manager(answers.name, answers.id, answers.email, answers.officeNum)
+    team.manager = new Manager(
+      answers.name,
+      answers.id,
+      answers.email,
+      answers.officeNum
     );
 
     switch (answers.newEmployee) {

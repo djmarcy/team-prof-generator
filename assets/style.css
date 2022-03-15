@@ -1,0 +1,38 @@
+* {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  background-color: #232526;
+  color: aliceblue;
+  text-align: center;
+  margin: 0;
+  padding: 25px 0;
+  width: 100%;
+}
+
+body {
+  background-color: aliceblue;
+  color: #232526;
+  width: 80%;
+  margin: 0 auto;
+}
+
+hr {
+  box-shadow: none;
+  height: 2px;
+  color: #232526;
+}
+
+.append-interns,
+.append-engineers {
+}
+
+.intern-card,
+.engineer-card {
+  width: 25%;
+}
