@@ -19,7 +19,7 @@ function generateHTML() {
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="../assets/style.css">
 
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
         integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
@@ -35,44 +35,54 @@ function generateHTML() {
 
   <body>
   <section class="manager-section">
-    <h2>Manager:</h2>
+    <h2>Manager</h2>
     <p><b>Manager Name:</b> ${team.manager.getName()}</p>
     <p><b>Manager ID:</b> ${team.manager.getId()}</p>
-    <p><b>Manager Email:</b> <a href="${team.manager.getEmail()}">${team.manager.getEmail()}</a></p>
+    <p><b>Manager Email:</b> <a href="mailto:${team.manager.getEmail()}">${team.manager.getEmail()}</a></p>
     <p><b>Manager Office:</b> ${team.manager.getOfficeNum()}</p>
   </section>
   
-  <section class="append-engineers">` +
+  <section>
+  <h3>Engineers</h3>
+  <div class="append-engineers">
+  ` +
     team.engineers
       .map((element) => {
         return `<div class="intern-card">
         <p><b>Engineer Name:</b> ${element.getName()}</p>
         <p><b>Engineer ID:</b> ${element.getId()}</p>
-        <p><b>Engineer Email:</b> <a href="${element.getEmail()}">${element.getEmail()}</a></p>
+        <p><b>Engineer Email:</b> <a href="mailto:${element.getEmail()}">${element.getEmail()}</a></p>
         <p><b>Engineer Github:</b> <a href="${element.getGithub()}">${element.getGithub()}</a></p>
        </div>`;
       })
       .join("") +
-    `</section>
+    `</div>
+    </section>
       
     <hr />
       
-  <section class="append-interns">` +
+  <section>
+  <h3>Interns</h3>
+  <div class="append-interns">
+  ` +
     team.interns
       .map((element) => {
         return `<div class="intern-card">
         <p><b>Intern Name:</b> ${element.getName()}</p>
         <p><b>Intern ID:</b> ${element.getId()}</p>
-        <p><b>Intern Email:</b> <a href="${element.getEmail()}">${element.getEmail()}</a></p>
+        <p><b>Intern Email:</b> <a href="mailto:${element.getEmail()}">${element.getEmail()}</a></p>
         <p><b>Intern School:</b> ${element.getSchool()}</p>
        </div>`;
       })
       .join("") +
-    `</section>
+    `</div>
+    </section>
           
     <hr />
 
-    <footer>&copy Marcy Web Dev 2022</footer>`;
+    </body>
+
+    <footer>&copy 2022 Marcy Web Dev</footer>`;
 
   fs.writeFile("./output/team-profile.html", content, (err) =>
     err ? console.log(err) : console.log("Readme Successfully Generated")

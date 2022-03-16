@@ -18,6 +18,13 @@ header {
 body {
   background-color: aliceblue;
   color: #232526;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+section {
   width: 80%;
   margin: 0 auto;
 }
@@ -28,11 +35,30 @@ hr {
   color: #232526;
 }
 
+footer {
+  text-align: center;
+  padding: 25px 0;
+  background-color: #232526;
+  color: aliceblue;
+}
+
+.manager-section {
+  text-align: center;
+  font-size: 133%;
+  margin-bottom: 25px;
+}
+
 .append-interns,
 .append-engineers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .intern-card,
 .engineer-card {
   width: 25%;
+  border: solid 1.5px #232526;
+  padding: 25px;
+  box-shadow: 2px 2px 1px #232526;
 }
